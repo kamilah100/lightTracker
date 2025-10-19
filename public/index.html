@@ -1,67 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Light Tracker</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Light Tracker</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
 </head>
 <body>
-  <div class="container-box bg-light p-4 mt-3 rounded mx-auto" style="max-width: 400px;">
-    <h1>Light Tracker</h1>
-    <p>Light tracker in progress</p>
-    <h2>Sign Up</h2>
-    <!-- <form autocomplete="off" id="signupForm"> -->
-      <input type="email" id="signupEmail" placeholder="Email" class="form-control mb-2" autocomplete="off">
-      <input type="password" id="signupPassword" placeholder="Password" class="form-control mb-3" autocomplete="new-password">
-      <button type="button" id="signupBtn" class="btn btn-primary w-100">Sign Up</button>
-    </form>
-    <p class="mt-3">Already have an account? <a href="login.html">Login here</a></p>
+  <div class="container-box bg-light p-4 mt-3 rounded mx-auto w-50">
+    <h1 class="text-center mb-3">Light Tracker</h1>
+    <p class="text-center">Light tracker in progress</p>
+
+    <h2 class="h4 mt-4 mb-3 text-center">Sign Up</h2>
+
+    <input
+      type="text"
+      id="firstname"
+      placeholder="Firstname"
+      class="form-control mb-2"
+      autocomplete="off"
+    />
+    <input
+      type="text"
+      id="lastname"
+      placeholder="Lastname"
+      class="form-control mb-2"
+      autocomplete="off"
+    />
+    <input
+      type="email"
+      id="signupEmail"
+      placeholder="Email"
+      class="form-control mb-2"
+      autocomplete="off"
+    />
+    <input
+      type="password"
+      id="signupPassword"
+      placeholder="Password"
+      class="form-control mb-3"
+      autocomplete="new-password"
+    />
+    <button type="button" id="signupBtn" class="btn btn-primary w-100">
+      Sign Up
+    </button>
+
+    <p class="mt-3 text-center">
+      Already have an account? <a href="login.html">Login here</a>
+    </p>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } 
-      from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+    import {getAuth,createUserWithEmailAndPassword,} from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAam9v7m5KZkGxnyOyhH2qQNpDIqsbKgjk",
       authDomain: "nepa-watch-a4c70.firebaseapp.com",
       projectId: "nepa-watch-a4c70",
-      storageBucket: "nepa-watch-a4c70.firebasestorage.app",
+      storageBucket: "nepa-watch-a4c70.appspot.com",  
       messagingSenderId: "943605181573",
       appId: "1:943605181573:web:c7cbda634152448b058dec",
-      measurementId: "G-SE98PHYXN3"
+      measurementId: "G-SE98PHYXN3",
     };
+
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);  
-    window.addEventListener("3000", () => {
-      setTimeout(() => {
-        document.getElementById("signupEmail").value = "";
-        document.getElementById("signupPassword").value = "";
-      }, 100);
-    })
+    const auth = getAuth(app);
+
+    
     document.getElementById("signupBtn").addEventListener("click", async () => {
-      const emailInput = document.getElementById("signupEmail");
-      const passwordInput = document.getElementById("signupPassword");
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-      if (!email || !password) {
-        alert("Please enter both email and password.");
+      const firstname = document.getElementById("firstname").value.trim();
+      const lastname = document.getElementById("lastname").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value.trim();
+
+      if (!firstname || !lastname || !email || !password) {
+        alert("Please fill out all fields.");
         return;
       }
+
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log( userCredential.user);
+        await createUserWithEmailAndPassword(auth, email, password);
         alert("Signup successful!");
-        emailInput.value = "";
-        passwordInput.value = "";
+        document.getElementById("firstname").value = "";
+        document.getElementById("lastname").value = "";
+        document.getElementById("signupEmail").value = "";
+        document.getElementById("signupPassword").value = "";
+
+        
         window.location.href = "login.html";
       } catch (error) {
-        console.error( error.code, error.message);
-        alert("This user already exists or invalid input.");
-        emailInput.value = "";
-        passwordInput.value = "";
+        console.error(error);
+        alert("Signup failed: " + error.message);
       }
     });
   </script>
