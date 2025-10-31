@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>LightTracker — Dashboard</title>
+  <style>
+    :root {
+      --accent: #7c5cff;
+      --accent-2: #00d4ff;
+      --card: #071029;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Inter, Arial;
+      background: linear-gradient(180deg, #071024, #071a2f);
+      color: #e6eef8;
+      min-height: 100vh;
+    }
+
+  
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--accent-2);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      padding: 8px 14px;
+      border-radius: 20px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: none;
+    }
+    .nav-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+    #who {
+      font-size: 13px;
+      margin-right: 6px;
+      color: rgba(255,255,255,0.8);
+    }
+
+   
+    .container {
+      max-width: 1200px;
+      margin: 18px auto;
+      padding: 0 18px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 18px;
+    }
+    .card {
+      background: rgba(255,255,255,0.02);
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-title {
+      font-weight: 700;
+    }
+    .card-subtitle {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+    .small {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: transparent;
+      color: inherit;
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px;
+      border-radius: 8px;
+      border: 0;
+      cursor: pointer;
+    }
+    .btn-on {
+      background: linear-gradient(90deg, #22c55e, #7c5cff);
+      color: white;
+    }
+    .btn-off {
+      background: linear-gradient(90deg, #ff6b6b, #ffb86b);
+      color: white;
+    }
+    .list {
+      max-height: 70vh;
+      overflow: auto;
+      margin-top: 12px;
+      display: grid;
+      gap: 8px;
+    }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+    .status-on {
+      color: #7ef29a;
+      font-weight: 700;
+    }
+    .status-off {
+      color: #ffb0a0;
+      font-weight: 700;
+    }
+    .item-title {
+      font-weight: 700;
+    }
+    .item-meta {
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+    }
+    .recent-item-text {
+      max-width: 80%;
+    }
+
+    @media(max-width:980px) {
+      .grid { grid-template-columns: 1fr; }
+      header { flex-direction: column; gap: 8px; text-align: center; }
+      .nav-links { flex-wrap: wrap; justify-content: center; }
+    }
+
+    
+    .bs{
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 15px;
+      background-color: #09152c;
+      font-size: 13px;
+      text-align: center;
+    }
+    .cl{
+      background: linear-gradient(#7c5cff, #00d4ff);
+      border-radius: 10px;
+      color: black;
+      padding: 2px 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-title">⚡ LightTracker Dashboard</div>
+    <div class="nav-links">
+      <span id="who" class="small"></span>
+      <a href="profile.html" class="nav-btn">Profile</a>
+      <a href="index.html" class="nav-btn">Home</a>
+      <a href="#" id="signOut" class="nav-btn">Sign Out</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="grid">
+      <aside class="card">
+        <div class="card-title">Report status</div>
+        <div class="card-subtitle">Choose state, city and area then report ON/OFF</div>
+
+        <label>State</label>
+        <select id="stateSel"></select>
+
+        <label>City</label>
+        <input id="cityInput" placeholder="City (e.g. Ikeja)" />
+
+        <label>Area</label>
+        <input id="areaInput" placeholder="Area (e.g. Ogba)" />
+
+        <div class="actions">
+          <button class="btn-on" id="reportOn">Report ON</button>
+          <button class="btn-off" id="reportOff">Report OFF</button>
+        </div>
+
+        <div class="small">Reports are stored with timestamp and your user id.</div>
+      </aside>
+
+      <section>
+        <div class="card" id="liveStatusCard">
+          <div class="card-header">
+            <div class="card-title">Live status across Nigeria</div>
+            <div class="small">Auto-updates in real-time</div>
+          </div>
+          <div class="list" id="statusList" aria-live="polite"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Recent reports</div>
+          <div id="recentList" class="list"></div>
+        </div>
+      </section>
+    </div>
+  </main><br>
+
+  <footer class="bs">
+    <div>© <span id="year"></span> LightTracker Nigeria</div>
+    <div class="footer-note">Built by <b class="cl"><i>bigḊ·Kạm</i></b> for a brighter Nigeria</div>
+  </footer>
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAam9v7m5KZkGxnyOyhH2qQNpDIqsbKgjk",
+      authDomain: "nepa-watch-a4c70.firebaseapp.com",
+      projectId: "nepa-watch-a4c70",
+      storageBucket: "nepa-watch-a4c70.appspot.com",
+      messagingSenderId: "943605181573",
+      appId: "1:943605181573:web:c7cbda634152448b058dec",
+      measurementId: "G-SE98PHYXN3",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    const NIGERIA_STATES = ["Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa","Kaduna","Kano","Katsina","Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"];
+    const stateSel = document.getElementById('stateSel');
+    NIGERIA_STATES.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      stateSel.appendChild(opt);
+    });
+
+    const who = document.getElementById('who');
+    const statusList = document.getElementById('statusList');
+    const recentList = document.getElementById('recentList');
+    const signOut = document.getElementById('signOut');
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert('Please sign in to use the dashboard.');
+        location.href = 'auth.html';
+        return;
+      }
+      who.textContent = user.displayName ? user.displayName : user.email;
+      setupListeners();
+    });
+
+    signOut.addEventListener('click', async (e) => {
+      e.preventDefault();
+      await auth.signOut();
+      location.href = 'index.html';
+    });
+
+    function latestPath(state, city, area) {
+      const safeState = state || 'Unknown';
+      const safeCity = city || 'Unknown';
+      const safeArea = area || 'Unknown';
+      return `latest/${safeState}/${safeCity}/${safeArea}`;
+    }
+
+    async function submitReport(status) {
+      const state = stateSel.value;
+      const city = document.getElementById('cityInput').value.trim();
+      const area = document.getElementById('areaInput').value.trim();
+      if (!state || !city || !area) { alert('Please fill state, city and area'); return; }
+      const user = auth.currentUser;
+      if (!user) { alert('Sign in required'); location.href='auth.html'; return; }
+
+      const report = {
+        state, city, area, status, timestamp: Date.now(),
+        userId: user.uid, userName: user.displayName || user.email || 'Anonymous'
+      };
+
+      const pushRef = db.ref(`reports/${state}/${city}/${area}`).push();
+      await pushRef.set(report);
+      await db.ref(latestPath(state, city, area)).set(report);
+      alert('Report submitted: ' + status.toUpperCase());
+    }
+
+    document.getElementById('reportOn').addEventListener('click', () => submitReport('on'));
+    document.getElementById('reportOff').addEventListener('click', () => submitReport('off'));
+
+    function setupListeners() {
+      const latestRef = db.ref('latest');
+      latestRef.on('value', snapshot => {
+        statusList.innerHTML = '';
+        const data = snapshot.val();
+        if (!data) {
+          statusList.innerHTML = '<div class="small">No reports yet</div>';
+          return;
+        }
+
+        const items = [];
+        Object.keys(data).forEach(state => {
+          const cities = data[state] || {};
+          Object.keys(cities).forEach(city => {
+            const areas = cities[city] || {};
+            Object.keys(areas).forEach(area => {
+              items.push(areas[area]);
+            });
+          });
+        });
+
+        items.sort((a,b) => (b.timestamp || 0) - (a.timestamp || 0));
+
+        items.forEach(it => {
+          const el = document.createElement('div');
+          el.className = 'item';
+          el.innerHTML = `
+            <div>
+              <div class="item-title">${it.state} • ${it.city} • ${it.area}</div>
+              <div class="item-meta">by ${it.userName} • ${new Date(it.timestamp).toLocaleString()}</div>
+            </div>
+            <div class="${it.status === 'on' ? 'status-on' : 'status-off'}">${it.status.toUpperCase()}</div>
+          `;
+          statusList.appendChild(el);
+        });
+      });
+
+      const reportsRef = db.ref('reports');
+      reportsRef.limitToLast(200).on('value', snap => {
+        recentList.innerHTML = '';
+        const val = snap.val();
+        if (!val) {
+          recentList.innerHTML = '<div class="small">No recent reports</div>';
+          return;
+        }
+
+        const flat = [];
+        Object.keys(val).forEach(state => {
+          const cities = val[state] || {};
+          Object.keys(cities).forEach(city => {
+            const areas = cities[city] || {};
+            Object.keys(areas).forEach(area => {
+              const pushes = areas[area] || {};
+              Object.keys(pushes).forEach(k => {
+                flat.push(pushes[k]);
+              });
+            });
+          });
+        });
+
+        flat.sort((a,b) => (b.timestamp||0) - (a.timestamp||0));
+        flat.slice(0,80).forEach(r => {
+          const el = document.createElement('div');
+          el.className = 'item';
+          el.innerHTML = `
+            <div class="recent-item-text">
+              <div class="item-title">${r.state} • ${r.city} • ${r.area}</div>
+              <div class="item-meta">by ${r.userName} • ${new Date(r.timestamp).toLocaleString()}</div>
+            </div>
+            <div class="${r.status === 'on' ? 'status-on' : 'status-off'}">${r.status.toUpperCase()}</div>
+          `;
+          recentList.appendChild(el);
+        });
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>LightTracker — Profile</title>
+  <style>
+    body {
+      font-family: Inter, Arial;
+      background: linear-gradient(180deg, #071024, #071a2f);
+      color: #e6eef8;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    header {
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 4px 30px rgba(2,6,23,0.5);
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+      background: linear-gradient(90deg, #7c5cff, #00d4ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-btn {
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      text-decoration: none;
+      color: #e6eef8;
+      background: rgba(255,255,255,0.04);
+      transition: all 0.25s ease;
+      font-weight: 600;
+    }
+
+    .nav-btn:hover {
+      background: linear-gradient(90deg, #7c5cff, #00d4ff);
+      color: white;
+      box-shadow: 0 4px 14px rgba(124,92,255,0.25);
+    }
+
+    #signOut {
+      background: linear-gradient(90deg, #7c5cff, #00d4ff);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+
+    #signOut:hover {
+      opacity: 0.9;
+      transform: scale(1.03);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 24px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #fullName {
+      font-weight: 700;
+    }
+
+    .small {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .location-section {
+      margin-top: 6px;
+    }
+
+    .location-section label {
+      display: block;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 4px;
+    }
+
+    #location {
+      padding: 6px;
+      width: 200px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: transparent;
+      color: white;
+      margin-right: 6px;
+    }
+
+    #saveLocation,
+    #openReports,
+    .modal button {
+      background: linear-gradient(90deg, #7c5cff, #00d4ff);
+      color: white;
+      border: 0;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    #saveLocation:hover,
+    #openReports:hover,
+    .modal button:hover {
+      opacity: 0.9;
+    }
+
+    /* Reports List */
+    .list {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    /* Modal Styles */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: rgba(20, 20, 30, 0.95);
+      padding: 18px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: rgba(20, 20, 30, 0.95);
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .modal-title {
+      font-weight: 700;
+    }
+
+    #closeModal {
+      font-size: 18px;
+      background: transparent;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 4px 10px;
+    }
+
+    #closeModal:hover {
+      color: #ff6b6b;
+    }
+
+    .cl{
+      background: linear-gradient(#7c5cff, #00d4ff);
+      border-radius: 10px;
+      color: black;
+    }
+
+    .bot{
+      font-size:10px;
+    }
+
+    .fot{
+      display: flex;
+      justify-content: space-around;
+      position: fixed;
+      bottom: 0px;
+      width: 100%;
+      background-color: #051122;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">LightTracker Profile</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">🏠 Home</a>
+      <a href="dashboard.html" class="nav-btn">📊 Dashboard</a>
+      <button id="signOut">Sign Out</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <div class="card-header">
+        <div class="profile-info">
+          <div id="fullName">—</div>
+          <div id="email" class="small">—</div>
+
+          <div class="location-section">
+            <label for="location">Default Location:</label>
+            <input id="location" placeholder="Enter your location" />
+            <button id="saveLocation">Save</button>
+          </div>
+        </div>
+
+        <div class="reports-btn">
+          <button id="openReports">View Light Reports</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <div class="modal" id="reportModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">Your Light Status Reports</div>
+        <button id="closeModal">×</button>
+      </div>
+      <div id="reportList" class="list"></div>
+    </div>
+  </div>
+
+  <footer class="fot">
+    <div class="bot">© <span id="year"></span> LightTracker Nigeria</div>
+    <div class="bot"><i>Your Light ⚡️ status records rightly reserved for you</i></div>
+    <div class="bot">Built by <b class="cl mat"><i>bigḊ·Kạm</i></b> for a brighter Nigeria⭐️⭐️⭐️⭐️⭐️</div>
+  </footer>
+
+  
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAam9v7m5KZkGxnyOyhH2qQNpDIqsbKgjk",
+      authDomain: "nepa-watch-a4c70.firebaseapp.com",
+      projectId: "nepa-watch-a4c70",
+      storageBucket: "nepa-watch-a4c70.appspot.com",
+      messagingSenderId: "943605181573",
+      appId: "1:943605181573:web:c7cbda634152448b058dec",
+      measurementId: "G-SE98PHYXN3",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    const fullNameEl = document.getElementById('fullName');
+    const emailEl = document.getElementById('email');
+    const signOut = document.getElementById('signOut');
+    const locationInput = document.getElementById('location');
+    const saveLocation = document.getElementById('saveLocation');
+    const openReports = document.getElementById('openReports');
+    const reportModal = document.getElementById('reportModal');
+    const closeModal = document.getElementById('closeModal');
+    const reportList = document.getElementById('reportList');
+
+    let currentUser, userRef;
+
+    auth.onAuthStateChanged(async user => {
+      if(!user) { alert('Sign in first'); location.href='auth.html'; return; }
+      currentUser = user;
+      emailEl.textContent = user.email;
+      fullNameEl.textContent = user.displayName || 'Anonymous';
+
+      userRef = db.ref('users/' + user.uid);
+      const snapshot = await userRef.child('location').get();
+      if (snapshot.exists()) {
+        locationInput.value = snapshot.val();
+      } else {
+        await userRef.update({ location: 'Not set' });
+        locationInput.value = 'Not set';
+      }
+    });
+
+    saveLocation.addEventListener('click', async () => {
+      if (!currentUser) return;
+      const newLoc = locationInput.value.trim();
+      await userRef.update({ location: newLoc });
+      alert('Location updated successfully.');
+    });
+
+    signOut.addEventListener('click', async () => {
+      await auth.signOut();
+      location.href = 'index.html';
+    });
+
+    openReports.addEventListener('click', () => {
+      reportModal.classList.add('active');
+      loadUserReports(currentUser.uid);
+    });
+    closeModal.addEventListener('click', () => reportModal.classList.remove('active'));
+
+    async function loadUserReports(uid) {
+      reportList.innerHTML = '<div class="small">Loading...</div>';
+      const snap = await db.ref('reports').once('value');
+      const data = snap.val() || {};
+      const userReports = [];
+
+      Object.keys(data).forEach(state => {
+        Object.keys(data[state]).forEach(city => {
+          Object.keys(data[state][city]).forEach(area => {
+            const reports = data[state][city][area];
+            Object.keys(reports).forEach(key => {
+              const r = reports[key];
+              if (r.userId === uid) userReports.push({...r, key, state, city, area});
+            });
+          });
+        });
+      });
+
+      reportList.innerHTML = '';
+      if (!userReports.length) {
+        reportList.innerHTML = '<div class="small">No reports yet.</div>';
+        return;
+      }
+
+      userReports.sort((a,b)=> (b.timestamp||0)-(a.timestamp||0));
+
+      userReports.forEach(r => {
+        const el = document.createElement('div');
+        el.className = 'item';
+        el.innerHTML = `
+          <div>
+            <div class="report-location">${r.state} • ${r.city} • ${r.area}</div>
+            <div class="small">${new Date(r.timestamp).toLocaleString()}</div>
+          </div>
+          <div class="report-status">
+            <span class="status-text">${r.status.toUpperCase()}</span>
+            <button class="delete-btn" data-path="${r.state}/${r.city}/${r.area}/${r.key}">Delete</button>
+          </div>
+        `;
+        reportList.appendChild(el);
+      });
+
+      reportList.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const path = btn.getAttribute('data-path');
+          if (confirm('Delete this report?')) {
+            await db.ref('reports/' + path).remove();
+            alert('Report deleted.');
+            loadUserReports(uid);
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>

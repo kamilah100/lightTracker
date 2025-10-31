@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LightTracker — Sign in / Sign up</title>
+  <style>
+    :root {
+      --accent: #7c5cff;
+      --accent-2: #00d4ff;
+      --glass-border: rgba(255,255,255,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: Inter, Arial;
+      background: linear-gradient(180deg, #071024, #071a2f);
+      height: 100vh;
+      color: #e6eef8;
+      display: grid;
+      place-items: center;
+      margin:0;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 720px;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 22px;
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(6px);
+    }
+
+    .header { display:flex;justify-content:space-between;align-items:center;margin-bottom:12px }
+    .header-title { font-weight:700 }
+    .back-home { color:inherit;text-decoration:none }
+
+    .tabs { display:flex;gap:6px;margin-bottom:14px }
+    .tabs button {
+      flex:1;padding:10px;border-radius:10px;border:0;background:transparent;color:inherit;cursor:pointer
+    }
+    .tabs button.active { background: linear-gradient(90deg, var(--accent), var(--accent-2)); color:#fff }
+
+    form { display:grid; gap:10px }
+    input {
+      padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);
+      background:transparent;color:inherit
+    }
+    button.primary {
+      padding:10px;border-radius:8px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white;font-weight:700;cursor:pointer
+    }
+
+    .note{font-size:13px;color:rgba(255,255,255,0.6);margin-top:8px}
+    footer{
+      width:100%;position:fixed;bottom:0;font-size:13px;color:rgba(255,255,255,0.6);
+      text-align:center;display:flex;justify-content:space-between;padding:15px;background-color:#09152c;
+    }
+    .bb{display:none}
+
+    /* ==== AUTH NAVBAR STYLES ==== */
+    .auth-navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a {
+      color: rgba(255, 255, 255, 0.85);
+      text-decoration: none;
+      font-size: 0.95rem;
+      padding: 6px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #fff;
+      transform: translateY(-1px);
+      box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+    }
+
+    .menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.6rem;
+      cursor: pointer;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .menu-btn {
+        display: block;
+      }
+
+      .nav-links {
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: rgba(0, 0, 0, 0.9);
+        flex-direction: column;
+        align-items: flex-start;
+        width: 200px;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.05);
+        transform: translateY(-10px);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .nav-links.show {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+      }
+
+      .nav-links a {
+        padding: 10px 12px;
+        width: 100%;
+      }
+    }
+
+    .baa{ position: fixed; top: 0px; width: 100%; }
+
+    .cl{
+      background: linear-gradient(#7c5cff, #00d4ff);
+      border-radius: 10px;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <header class="auth-navbar baa">
+    <div class="logo">⚡ LightTracker</div>
+    <nav id="navLinks" class="nav-links">
+      <a href="index.html">🏠 Home</a>
+      <a href="about.html">ℹ️ About</a>
+      <a href="dashboard.html">📊 Dashboard</a>
+    </nav>
+    <button id="menuBtn" class="menu-btn">☰</button>
+  </header>
+  
+  <div class="card">
+    <div class="header">
+      <div class="header-title">LightTracker — Account</div>
+      <a href="index.html" class="back-home">Back home</a>
+    </div>
+
+    <div class="tabs">
+      <button id="tabSignIn" class="active">Sign in</button>
+      <button id="tabSignUp">Sign up</button>
+    </div>
+
+    <form id="authForm">
+      <input id="displayName" placeholder="Full name (for profile)" class="bb" />
+      <input id="email" type="email" placeholder="Email" required />
+      <input id="password" type="password" placeholder="Password (min 6)" required />
+      <button id="submitBtn" type="submit" class="primary">Sign in</button>
+    </form>
+
+    <div class="note">
+      Passwords are stored via Firebase Auth. After sign-in, you'll be redirected to the dashboard.
+    </div>
+  </div>
+
+  <footer>
+    <div>© <span id="year"></span> LightTracker Nigeria</div>
+    <div class="footer-note">Built by <b class="cl"><i>bigḊ·Kạm</i></b> for a brighter Nigeria</div>
+  </footer>
+
+ 
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAam9v7m5KZkGxnyOyhH2qQNpDIqsbKgjk",
+      authDomain: "nepa-watch-a4c70.firebaseapp.com",
+      projectId: "nepa-watch-a4c70",
+      storageBucket: "nepa-watch-a4c70.appspot.com",
+      messagingSenderId: "943605181573",
+      appId: "1:943605181573:web:c7cbda634152448b058dec",
+      measurementId: "G-SE98PHYXN3",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    const tabSignIn = document.getElementById('tabSignIn');
+    const tabSignUp = document.getElementById('tabSignUp');
+    const displayName = document.getElementById('displayName');
+    const submitBtn = document.getElementById('submitBtn');
+    const authForm = document.getElementById('authForm');
+
+    function switchToSignIn() {
+      tabSignIn.classList.add('active');
+      tabSignUp.classList.remove('active');
+      displayName.style.display = 'none';
+      submitBtn.textContent = 'Sign in';
+    }
+
+    function switchToSignUp() {
+      tabSignUp.classList.add('active');
+      tabSignIn.classList.remove('active');
+      displayName.style.display = 'block';
+      submitBtn.textContent = 'Create account';
+    }
+
+    tabSignIn.addEventListener('click', switchToSignIn);
+    tabSignUp.addEventListener('click', switchToSignUp);
+
+    authForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const pwd = document.getElementById('password').value;
+      const name = displayName.value.trim();
+
+      if (!email || !pwd) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      try {
+        if (tabSignUp.classList.contains('active')) {
+          const res = await auth.createUserWithEmailAndPassword(email, pwd);
+          await res.user.updateProfile({ displayName: name || 'Anonymous' });
+
+          const userRef = db.ref('users/' + res.user.uid);
+          await userRef.set({
+            displayName: res.user.displayName,
+            email: res.user.email,
+            lightStatus: { status: "OFF", reportedAt: new Date().toISOString() }
+          });
+
+          alert('Account created successfully! Please sign in to continue.');
+          switchToSignIn();
+          authForm.reset();
+        } else {
+          const res = await auth.signInWithEmailAndPassword(email, pwd);
+          if (res.user) {
+            await db.ref('users/' + res.user.uid).update({ lastLogin: Date.now() });
+            alert('Signed in successfully. Redirecting to dashboard...');
+            location.href = 'dashboard.html';
+          }
+        }
+      } catch (err) {
+        if (tabSignUp.classList.contains('active')) {
+          if (err.code === 'auth/email-already-in-use') {
+            alert('This email is already registered. Please sign in instead.');
+            switchToSignIn();
+          } else {
+            alert('Sign up error: ' + err.message);
+          }
+        } else {
+          if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
+            alert('Invalid email or password. Please try again.');
+          } else if (err.code === 'auth/user-not-found') {
+            alert('No account found with this email. Please sign up first.');
+            switchToSignUp();
+          } else {
+            alert('Sign in error: ' + err.message);
+          }
+        }
+      }
+    });
+
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('show');
+    });
+  </script>
+</body>
+</html>
