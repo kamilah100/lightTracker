@@ -1,69 +1,411 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Light Tracker</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LightTracker Nigeria — Home</title>
+  <meta http-equiv="Permissions-Policy" content="unload=(self)">
+  <style>
+    :root{
+      --accent:#7c5cff;
+      --accent-2:#00d4ff;
+      --glass-bg: rgba(255,255,255,0.08);
+      --glass-border: rgba(255,255,255,0.12);
+      --glass-blur: 8px;
+      --card:#0b1220;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      min-height:100vh;
+      background: linear-gradient(160deg, #071024 0%, #0b1220 40%, #071a2f 100%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.4;
+      padding-bottom:80px;
+    }
+
+   
+    header{
+      position:sticky;top:0;z-index:40;padding:12px 20px;
+      display:flex;align-items:center;justify-content:space-between;
+      backdrop-filter: blur(var(--glass-blur));
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-bottom:1px solid var(--glass-border);
+      box-shadow: 0 6px 30px rgba(2,6,23,0.6);
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{
+      width:44px;height:44px;border-radius:10px;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:grid;place-items:center;font-weight:700;color:white;
+      box-shadow:0 6px 18px rgba(124,92,255,0.18);
+    }
+    .brand-text{font-weight:700}
+    .brand-sub{font-size:12px;color:rgba(230,238,248,0.6)}
+    nav{display:flex;gap:14px;align-items:center}
+    a.btn{
+      padding:8px 12px;border-radius:10px;text-decoration:none;color:inherit;font-weight:600;
+      transition:all .18s ease;
+    }
+    a.primary{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white;box-shadow:0 6px 18px rgba(0,0,0,0.2);
+    }
+    a.ghost{border:1px solid rgba(255,255,255,0.06);padding:8px 12px}
+
+  
+    .container{max-width:1100px;margin:40px auto;padding:0 20px}
+    .hero{
+      display:grid;grid-template-columns:1fr 420px;gap:30px;align-items:center;
+    }
+    .card{
+      padding:28px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid var(--glass-border);backdrop-filter: blur(6px);
+      box-shadow: 0 8px 60px rgba(2,6,23,0.6);
+    }
+    h1{font-size:28px;margin-bottom:8px}
+    p.lead{color:rgba(230,238,248,0.8);margin-bottom:18px}
+    .search-box{display:flex;gap:8px;margin-top:8px}
+    .search-box input{
+      flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);
+      background:transparent;color:inherit;font-size:15px;
+    }
+    .search-box button{
+      padding:12px 16px;border-radius:12px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white;font-weight:700;cursor:pointer;transition:transform .12s ease;
+    }
+    .search-box button:active{transform:scale(.98)}
+    .info{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+    .info .small{
+      background: rgba(255,255,255,0.02);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04)
+    }
+    .hero-note{
+      margin-top:18px;font-size:13px;color:rgba(255,255,255,0.6)
+    }
+
+    
+    .side-card{
+      display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;text-align:center
+    }
+    .pulse {
+      width:120px;height:120px;border-radius:999px;background:linear-gradient(180deg,var(--accent),var(--accent-2));
+      display:grid;place-items:center;font-weight:700;color:white;position:relative;
+      box-shadow:0 14px 40px rgba(124,92,255,0.14);
+      animation:pulse 2s infinite;
+    }
+    @keyframes pulse{
+      0%{transform:scale(1);filter:blur(0)}
+      50%{transform:scale(1.06);filter:blur(.3px)}
+      100%{transform:scale(1);filter:blur(0)}
+    }
+    .side-card-title{color:rgba(255,255,255,0.85);font-weight:700}
+    .side-card-text{color:rgba(255,255,255,0.6);font-size:14px}
+
+    
+    .carousel{
+      margin-top:60px;overflow:hidden;position:relative;border-radius:18px;
+      border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);
+    }
+    .carousel-inner{display:flex;transition:transform 0.8s ease;}
+    .carousel-item{min-width:100%;text-align:center;padding:60px 20px;}
+    .carousel-item h2{font-size:24px;margin-bottom:8px}
+    .carousel-item p{color:rgba(255,255,255,0.75)}
+    .carousel-dots{display:flex;justify-content:center;margin-top:12px;gap:8px}
+    .dot{
+      width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.25);cursor:pointer;transition:.2s;
+    }
+    .dot.active{background:var(--accent)}
+
+  
+    section.info-section{margin-top:80px;text-align:center}
+    section.info-section h2{font-size:26px;margin-bottom:12px;color:white}
+    section.info-section p{max-width:720px;margin:0 auto;color:rgba(255,255,255,0.75)}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:32px;text-align:left}
+    .step-card{
+      background:rgba(255,255,255,0.03);border-radius:14px;padding:20px;
+      border:1px solid rgba(255,255,255,0.04);
+      transition:transform .2s ease;
+    }
+    .step-card:hover{transform:translateY(-4px)}
+    .step-card h3{margin-bottom:6px;font-size:18px;color:var(--accent-2)}
+
+    
+    footer{
+      position:fixed;left:0;right:0;bottom:0;padding:14px 20px;
+      background:linear-gradient(0deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+      border-top:1px solid rgba(255,255,255,0.03);
+      display:flex;justify-content:space-between;align-items:center;
+      color:rgba(255,255,255,0.6);font-size:13px
+    }
+    .footer-note{font-size:13px}
+    @media(max-width:920px){
+      .hero{grid-template-columns:1fr; padding-bottom:40px}
+      .side-card{order:-1}
+    }
+
+    .glass-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 60px rgba(2,6,23,0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-grid:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 70px rgba(124,92,255,0.25);
+}
+.power-grid {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.2));
+}
+.grid-info {
+  text-align: center;
+  color: rgba(255,255,255,0.85);
+}
+.grid-info h3 {
+  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--accent-2);
+}
+.grid-info p {
+  font-size: 14px;
+  color: rgba(255,255,255,0.65);
+}
+
+
+@media (max-width: 600px) {
+  .power-grid { max-width: 280px; }
+  .grid-info p { font-size: 13px; }
+}
+.cl{
+      background: linear-gradient(#7c5cff, #00d4ff);
+      border-radius: 10px;
+      color: black;
+    }
+
+  </style>
 </head>
 <body>
-  <div class="container-box bg-light p-4 mt-3 rounded mx-auto" style="max-width: 400px;">
-    <h1>Light Tracker</h1>
-    <p>Light tracker in progress</p>
-    <h2>Sign Up</h2>
-    <!-- <form autocomplete="off" id="signupForm"> -->
-      <input type="email" id="signupEmail" placeholder="Email" class="form-control mb-2" autocomplete="off">
-      <input type="password" id="signupPassword" placeholder="Password" class="form-control mb-3" autocomplete="new-password">
-      <button type="button" id="signupBtn" class="btn btn-primary w-100">Sign Up</button>
-    </form>
-    <p class="mt-3">Already have an account? <a href="login.html">Login here</a></p>
-  </div>
+  <header>
+    <div class="brand">
+      <div class="logo">LT</div>
+      <div>
+        <div class="brand-text">LightTracker Nigeria</div>
+        <div class="brand-sub">Real-time citizen-powered status</div>
+      </div>
+    </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } 
-      from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+    <nav>
+      <a class="btn primary" href="about.html">About</a>
+      <a class="btn ghost" href="search.html">Search</a>
+      <a class="btn" href="auth.html">Sign in</a>
+      <a class="btn primary" href="dashboard.html">Dashboard</a>
+    </nav>
+  </header>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAam9v7m5KZkGxnyOyhH2qQNpDIqsbKgjk",
-      authDomain: "nepa-watch-a4c70.firebaseapp.com",
-      projectId: "nepa-watch-a4c70",
-      storageBucket: "nepa-watch-a4c70.firebasestorage.app",
-      messagingSenderId: "943605181573",
-      appId: "1:943605181573:web:c7cbda634152448b058dec",
-      measurementId: "G-SE98PHYXN3"
-    };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);  
-    window.addEventListener("3000", () => {
-      setTimeout(() => {
-        document.getElementById("signupEmail").value = "";
-        document.getElementById("signupPassword").value = "";
-      }, 100);
-    })
-    document.getElementById("signupBtn").addEventListener("click", async () => {
-      const emailInput = document.getElementById("signupEmail");
-      const passwordInput = document.getElementById("signupPassword");
-      const email = emailInput.value.trim();
-      const password = passwordInput.value.trim();
-      if (!email || !password) {
-        alert("Please enter both email and password.");
-        return;
-      }
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log( userCredential.user);
-        alert("Signup successful!");
-        emailInput.value = "";
-        passwordInput.value = "";
-        window.location.href = "login.html";
-      } catch (error) {
-        console.error( error.code, error.message);
-        alert("This user already exists or invalid input.");
-        emailInput.value = "";
-        passwordInput.value = "";
-      }
+  <main class="container">
+  
+    <section class="hero">
+      <div class="card">
+        <h1>Know when light returns — across all 36 states.</h1>
+        <p class="lead">Crowd-sourced and verified by citizens. Report power on/off in your area so others can see live status.</p>
+
+        <div class="search-box">
+          <input id="quickSearch" placeholder="Search by state, city or area (e.g. Lagos, Ikeja, Ogba)" />
+          <button id="goSearch">Search</button>
+        </div>
+
+        <div class="info" aria-hidden="true">
+          <div class="small">Latest updates from volunteers</div>
+          <div class="small">Share real-time reports — help others plan</div>
+        </div>
+
+        <div class="hero-note">
+          Unsigned users can search reports. To add or manage reports, sign in.
+        </div>
+      </div>
+
+      <div class="side-card card">
+       
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 160" width="140" height="120" style="margin-bottom:12px">
+          <defs>
+            <linearGradient id="gradGrid" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7c5cff"/>
+              <stop offset="100%" stop-color="#00d4ff"/>
+            </linearGradient>
+          </defs>
+      
+          <g stroke="rgba(255,255,255,0.15)" stroke-width="0.5">
+            <line x1="0" y1="130" x2="220" y2="130"/>
+            <line x1="0" y1="100" x2="220" y2="100"/>
+            <line x1="0" y1="70" x2="220" y2="70"/>
+            <line x1="40" y1="40" x2="40" y2="130"/>
+            <line x1="100" y1="40" x2="100" y2="130"/>
+            <line x1="160" y1="40" x2="160" y2="130"/>
+          </g>
+      
+        
+          <g stroke="url(#gradGrid)" stroke-width="2" fill="none">
+            <path d="M40 130 L60 60 L80 130 Z"/>
+            <path d="M100 130 L120 50 L140 130 Z"/>
+            <path d="M160 130 L180 65 L200 130 Z"/>
+          </g>
+      
+         
+          <path d="M60 60 Q80 40, 120 50 T180 65" stroke="url(#gradGrid)" stroke-width="2" fill="none"/>
+      
+         
+          <circle cx="60" cy="60" r="3" fill="var(--accent-2)">
+            <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="120" cy="50" r="3" fill="var(--accent)">
+            <animate attributeName="r" values="3;5;3" dur="2.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="180" cy="65" r="3" fill="var(--accent-2)">
+            <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      
+        <div class="side-card card">
+          <div class="glass-grid">
+            <svg viewBox="0 0 400 300" class="power-grid" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+          
+                <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#7c5cff" />
+                  <stop offset="100%" stop-color="#00d4ff" />
+                </linearGradient>
+               
+                <filter id="glassBlur">
+                  <feGaussianBlur stdDeviation="8" result="blur"/>
+                  <feBlend in="SourceGraphic" in2="blur" mode="overlay"/>
+                </filter>
+              </defs>
+        
+             
+              <path d="M40 200 Q100 140 160 200 T280 200 T400 200"
+                    stroke="url(#glow)" stroke-width="2.5"
+                    fill="none" stroke-linecap="round" opacity="0.8">
+                <animate attributeName="stroke-dasharray" from="0,300" to="300,0"
+                         dur="2s" repeatCount="indefinite"/>
+              </path>
+        
+             
+              <g stroke="url(#glow)" stroke-width="2" fill="none" filter="url(#glassBlur)">
+                <polygon points="80,200 100,130 120,200" opacity="0.85"/>
+                <polygon points="180,200 200,120 220,200" opacity="0.85"/>
+                <polygon points="280,200 300,140 320,200" opacity="0.85"/>
+              </g>
+        
+              
+              <circle cx="100" cy="130" r="5" fill="url(#glow)">
+                <animate attributeName="r" values="4;7;4" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="200" cy="120" r="5" fill="url(#glow)">
+                <animate attributeName="r" values="4;7;4" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="300" cy="140" r="5" fill="url(#glow)">
+                <animate attributeName="r" values="4;7;4" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+        
+            <div class="grid-info">
+              <h3>⚡ Live Grid</h3>
+              <p>Tracking Nigeria’s real-time power status — connected by citizens like you.</p>
+            </div>
+          </div>
+        </div>
+        
+      
+    </section>
+
+  
+    <section class="carousel">
+      <div class="carousel-inner" id="carouselInner">
+        <div class="carousel-item">
+          <h2>⚡ 10,000+ Power Reports Logged</h2>
+          <p>Join thousands of Nigerians tracking electricity in real time.</p>
+        </div>
+        <div class="carousel-item">
+          <h2>📍 Covering All 36 States</h2>
+          <p>From Lagos to Maiduguri, real people report live light status.</p>
+        </div>
+        <div class="carousel-item">
+          <h2>🤝 Powered by the People</h2>
+          <p>Every report helps your neighbor plan their day efficiently.</p>
+        </div>
+      </div>
+      <div class="carousel-dots">
+        <div class="dot active"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </section>
+
+   
+    <section class="info-section">
+      <h2>Our Mission</h2>
+      <p>LightTracker Nigeria aims to build a transparent, real-time map of electricity availability across Nigeria.  
+        We empower citizens to report power status, foster accountability, and make everyday planning easier for everyone.</p>
+    </section>
+
+ 
+    <section class="info-section">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step-card">
+          <h3>1️⃣ Sign Up or Search</h3>
+          <p>Create an account or simply search for your area’s current light status.</p>
+        </div>
+        <div class="step-card">
+          <h3>2️⃣ Report Light</h3>
+          <p>When light comes or goes, log it instantly with your location and timestamp.</p>
+        </div>
+        <div class="step-card">
+          <h3>3️⃣ View Live Dashboard</h3>
+          <p>See aggregated data by state, city, or area — powered by everyone’s reports.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>© <span id="year"></span> LightTracker Nigeria</div>
+    <div class="footer-note">Built by <b class="cl"><i>bigḊ·Kạm</i></b> for a brighter Nigeria</div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+   
+    document.getElementById('goSearch').addEventListener('click', ()=>{
+      const q = document.getElementById('quickSearch').value.trim();
+      if(!q) { location.href = 'search.html'; return; }
+      location.href = 'search.html?q=' + encodeURIComponent(q);
     });
+    document.getElementById('quickSearch').addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter') document.getElementById('goSearch').click();
+    });
+
+   
+    let index = 0;
+    const slides = document.querySelectorAll('.carousel-item');
+    const dots = document.querySelectorAll('.dot');
+    setInterval(()=>{
+      index = (index + 1) % slides.length;
+      document.getElementById('carouselInner').style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((d,i)=>d.classList.toggle('active', i===index));
+    }, 4000);
   </script>
 </body>
 </html>

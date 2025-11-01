@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About • LightTracker Nigeria</title>
+  <style>
+    :root{
+      --accent:#7c5cff;
+      --accent-2:#00d4ff;
+      --glass-bg: rgba(255,255,255,0.08);
+      --glass-border: rgba(255,255,255,0.12);
+      --glass-blur: 8px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(160deg, #071024 0%, #0b1220 40%, #071a2f 100%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+      min-height:100vh;
+      padding-bottom:80px;
+    }
+
+    header{
+      position:sticky;top:0;z-index:40;padding:12px 20px;
+      display:flex;align-items:center;justify-content:space-between;
+      backdrop-filter: blur(var(--glass-blur));
+      background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-bottom:1px solid var(--glass-border);
+      box-shadow: 0 6px 30px rgba(2,6,23,0.6);
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{
+      width:44px;height:44px;border-radius:10px;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      display:grid;place-items:center;font-weight:700;color:white;
+      box-shadow:0 6px 18px rgba(124,92,255,0.18);
+    }
+    .brand-text {display:flex;flex-direction:column;line-height:1.1;}
+    .brand-title {font-weight:700;}
+    .brand-subtitle {font-size:12px;color:rgba(230,238,248,0.6);}
+
+    nav{display:flex;gap:14px;align-items:center}
+    a.btn{
+      padding:10px 16px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:600;
+      transition:all .18s ease;
+      display:inline-block;
+    }
+    a.btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    }
+    a.primary{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white;
+    }
+    a.ghost{
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      color:#e6eef8;
+    }
+
+    .hero{
+      text-align:center;
+      max-width:900px;margin:60px auto 40px;
+      padding:40px 20px;
+      background:rgba(255,255,255,0.02);
+      border:1px solid var(--glass-border);
+      border-radius:18px;
+      backdrop-filter: blur(10px);
+      box-shadow:0 8px 40px rgba(2,6,23,0.6);
+    }
+    .hero h1{
+      font-size:32px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:12px;
+    }
+    .hero p{
+      color:rgba(255,255,255,0.8);
+      font-size:16px;
+      line-height:1.6;
+      max-width:680px;
+      margin:0 auto;
+    }
+
+    .content{
+      max-width:1100px;margin:60px auto;padding:0 20px;
+      display:grid;gap:40px;
+    }
+    .section{
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:18px;
+      padding:28px;
+      backdrop-filter:blur(8px);
+      box-shadow:0 6px 30px rgba(2,6,23,0.5);
+      transition:transform .3s ease;
+    }
+    .section:hover{transform:translateY(-4px)}
+    .section h2{color:white;font-size:24px;margin-bottom:10px;}
+    .section p{color:rgba(255,255,255,0.8)}
+    .highlight{color:var(--accent-2);font-weight:600;}
+
+    .quote{
+      text-align:center;
+      background:linear-gradient(90deg,rgba(124,92,255,0.06),rgba(0,212,255,0.06));
+      padding:40px 20px;border-radius:20px;
+      font-style:italic;color:rgba(255,255,255,0.85);
+      max-width:900px;margin:40px auto;
+      box-shadow:0 4px 20px rgba(2,6,23,0.4);
+    }
+    .quote span{display:block;margin-top:10px;color:var(--accent-2);font-weight:600;}
+
+    footer{
+      position:fixed;left:0;right:0;bottom:0;
+      padding:14px 20px;
+      background:linear-gradient(0deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+      border-top:1px solid rgba(255,255,255,0.03);
+      display:flex;justify-content:space-between;align-items:center;
+      color:rgba(255,255,255,0.6);
+    }
+    .footer-note {font-size:13px;}
+
+    @media(max-width:768px){
+      nav{flex-wrap:wrap;justify-content:center;gap:10px}
+      .hero h1{font-size:26px}
+      .section h2{font-size:20px}
+    }
+
+    .cl{
+      background: linear-gradient(#7c5cff, #00d4ff);
+      border-radius: 10px;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">LT</div>
+      <div class="brand-text">
+        <div class="brand-title">LightTracker Nigeria</div>
+        <div class="brand-subtitle">Real-time citizen-powered status</div>
+      </div>
+    </div>
+    <nav>
+      <a class="btn ghost" href="index.html">🏠 Home</a>
+      <a class="btn ghost" href="about.html">ℹ️ About</a>
+      <a class="btn ghost" href="dashboard.html">📊 Dashboard</a>
+      <a class="btn primary" href="auth.html">🔐 Sign in</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>About LightTracker Nigeria</h1>
+    <p>Empowering Nigerians to track, report, and share real-time electricity updates — one area at a time.  
+       LightTracker bridges the information gap and builds a connected, informed community.</p>
+  </section>
+
+  <div class="content">
+    <div class="section">
+      <h2>What is LightTracker Nigeria?</h2>
+      <p><span class="highlight">LightTracker Nigeria</span> is a crowd-powered web platform designed to help citizens monitor and report electricity supply across Nigeria’s 36 states.  
+      Every time someone reports when power comes or goes, that information becomes part of a real-time national map — visible to everyone.  
+      Our goal is to create a trusted, people-driven network of updates that keeps everyone informed.</p>
+    </div>
+
+    <div class="section">
+      <h2>How It Works</h2>
+      <p>When users sign in, they can easily <span class="highlight">log the light status</span> in their area — whether it’s ON or OFF — and the report automatically records the area name, time, and reporter.  
+      Others in that state or city can immediately see updates via the dashboard or search page.  
+      The system uses <span class="highlight">Firebase Authentication</span> for secure login and <span class="highlight">Firebase Realtime Database</span> to sync data live across all users.</p>
+    </div>
+
+    <div class="section">
+      <h2>Our Mission</h2>
+      <p>Electricity is more than just power — it’s opportunity, safety, and connection.  
+      Our mission is to <span class="highlight">foster transparency</span> and <span class="highlight">community participation</span> by giving citizens the ability to report and view electricity updates effortlessly.  
+      We believe that when people share information, everyone benefits — from students preparing for exams to small businesses planning operations.</p>
+    </div>
+
+    <div class="section">
+      <h2>Why It Matters</h2>
+      <p>Nigeria’s power challenges are real, but so is our resilience.  
+      LightTracker Nigeria gives people a voice and a simple tool to make daily planning easier — whether for charging, studying, or running a business.  
+      By turning our shared experiences into data, we help spark change and raise awareness.</p>
+    </div>
+  </div>
+
+  <div class="quote">
+    “When the light goes off, someone reports.  
+    When it comes back, another confirms.  
+    Together, we stay informed — and together, we build progress.”  
+    <span>— The LightTracker Team</span>
+  </div>
+
+  <footer>
+    <div>© <span id="year"></span> LightTracker Nigeria</div>
+    <div class="footer-note">Built by <b class="cl"><i>bigḊ·Kạm</i></b> for a brighter Nigeria</div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

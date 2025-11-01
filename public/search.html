@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Search reports — LightTracker</title>
+<style>
+  body{
+    font-family:Inter,Arial;
+    background:linear-gradient(180deg,#071024,#071a2f);
+    color:#e6eef8;
+    min-height:100vh;
+  }
+  .container{max-width:1000px;margin:18px auto;padding:0 18px}
+  .card{
+    background:rgba(255,255,255,0.02);
+    padding:14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.04);
+  }
+  .search{display:flex;gap:8px;margin-bottom:12px}
+  input{
+    flex:1;padding:10px;border-radius:8px;
+    border:1px solid rgba(255,255,255,0.06);
+    background:transparent;color:inherit;
+  }
+  button{
+    padding:10px 14px;
+    border-radius:8px;
+    border:0;
+    background:linear-gradient(90deg,#7c5cff,#00d4ff);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+  }
+  button:hover{
+    opacity:0.85;
+    transform:translateY(-1px);
+  }
+  .list{
+    display:grid;gap:8px;
+    max-height:65vh;
+    overflow-y:auto;
+    padding-right:6px;
+  }
+  .list::-webkit-scrollbar{width:8px;}
+  .list::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,0.15);
+    border-radius:4px;
+  }
+  .item{
+    display:flex;justify-content:space-between;
+    padding:10px;border-radius:8px;
+    border:1px solid rgba(255,255,255,0.02);
+  }
+  .small{font-size:13px;color:rgba(255,255,255,0.7)}
+
+ 
+  .bat{
+    padding:12px 18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:rgba(255,255,255,0.03);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    backdrop-filter:blur(8px);
+    position:sticky;
+    top:0;
+    z-index:10;
+  }
+  .bata{
+    font-weight:700;
+    font-size:18px;
+    color:#00d4ff;
+  }
+
+ 
+  .nav-links{
+    display:flex;
+    gap:10px;
+  }
+  .nav-btn{
+    padding:8px 14px;
+    border:none;
+    border-radius:20px;
+    background:linear-gradient(90deg,#7c5cff,#00d4ff);
+    color:white;
+    font-size:14px;
+    text-decoration:none;
+    transition:all 0.3s ease;
+  }
+  .nav-btn:hover{
+    opacity:0.9;
+    transform:translateY(-1px);
+  }
+
+  footer{
+    width:100%;
+    position:fixed;
+    bottom:0;
+    font-size:13px;
+    color:rgba(255,255,255,0.6);
+    text-align:center;
+    display:flex;
+    justify-content:space-around;
+    padding:15px;
+    background-color:#09152c;
+  }
+
+  .cl{
+      background: linear-gradient(#7c5cff, #00d4ff);
+      border-radius: 10px;
+      color: black;
+      font-size:10px;
+      padding:2px 6px;
+  }
+  .bot{font-size:10px}
+</style>
+</head>
+<body>
+  <header class="bat">
+    <div class="bata">⚡ LightTracker</div>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn">Home</a>
+      <a href="auth.html" class="nav-btn">Sign In</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="card">
+      <div class="search">
+        <input id="qInput" placeholder="Search by state, city or area (e.g. Kano, Wudil)" />
+        <button id="doSearch">Find</button>
+      </div>
+      <div id="results" class="list"></div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="bot">© <span id="year"></span> LightTracker Nigeria</div>
+    <div class="bot"><i>Your Light Search reports ⚡️ rightly reserved for you</i></div>
+    <div class="footer-note">Built by <b class="cl"><i>bigḊ·Kạm</i></b> for a brighter Nigeria</div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAam9v7m5KZkGxnyOyhH2qQNpDIqsbKgjk",
+      authDomain: "nepa-watch-a4c70.firebaseapp.com",
+      projectId: "nepa-watch-a4c70",
+      storageBucket: "nepa-watch-a4c70.appspot.com",
+      messagingSenderId: "943605181573",
+      appId: "1:943605181573:web:c7cbda634152448b058dec",
+      measurementId: "G-SE98PHYXN3",
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const qInput = document.getElementById('qInput');
+    const results = document.getElementById('results');
+
+    const params = new URLSearchParams(location.search);
+    if(params.get('q')) qInput.value = params.get('q');
+
+    document.getElementById('doSearch').addEventListener('click', doSearch);
+    qInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') doSearch(); });
+
+    async function doSearch(){
+      const q = qInput.value.trim().toLowerCase();
+      results.innerHTML = '<div class="small">Searching...</div>';
+      const snap = await db.ref('latest').once('value');
+      const data = snap.val() || {};
+      const flat = [];
+      Object.keys(data).forEach(state=>{
+        const cities = data[state] || {};
+        Object.keys(cities).forEach(city=>{
+          const areas = cities[city] || {};
+          Object.keys(areas).forEach(area=>{
+            flat.push(areas[area]);
+          });
+        });
+      });
+      const filtered = q ? flat.filter(r=>{
+        return (r.state||'').toLowerCase().includes(q) ||
+               (r.city||'').toLowerCase().includes(q) ||
+               (r.area||'').toLowerCase().includes(q);
+      }) : flat;
+      filtered.sort((a,b)=> (b.timestamp||0)-(a.timestamp||0));
+      results.innerHTML = '';
+      if(!filtered.length) results.innerHTML = '<div class="small">No reports found.</div>';
+      filtered.slice(0,200).forEach(r=>{
+        const el = document.createElement('div'); el.className='item';
+        el.innerHTML = `<div>
+          <div style="font-weight:700">${r.state} • ${r.city} • ${r.area}</div>
+          <div class="small">${new Date(r.timestamp).toLocaleString()} • by ${r.userName}</div>
+        </div>
+        <div style="font-weight:700">${r.status.toUpperCase()}</div>`;
+        results.appendChild(el);
+      });
+    }
+
+    doSearch();
+  </script>
+</body>
+</html>
